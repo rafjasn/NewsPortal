@@ -1,0 +1,49 @@
+﻿
+
+    @model Newsportal.ViewModels.PostsViewModel
+        @{
+             ViewBag.Title = "Search";
+             Layout = "~/Views/Shared/_LayoutHome.cshtml";
+         }
+
+    <h2>Search</h2>
+    
+    
+    
+    @if (!Model.PaginatedPosts().Any())
+    {
+        <h4>No posts found</h4>
+    }
+
+    @foreach (var post in Model.PaginatedPosts())
+    {
+
+        <div class="card mb-4 cardPost">
+            <a href="~/Posts/Details/@post.Id"><img class="card-img-top" src="@Url.Content(post.Image)" width="400" /></a>
+            <div class="card-body">
+
+                <h2> @Html.ActionLink(post.PostTitle, "Details", "Home", new { id = post.Id }, new { @class = "card-title", style="color: black;" })</h2>
+
+            
+                <p><b>Category : </b>@Html.ActionLink( @post.Category.Name , "Category", "Home", new {id = post.CategoryId}, new {@class="badge badge-primary"}) </p>
+          
+
+
+            </div>
+            <div class="card-footer text-muted">
+                <p><i class="fa fa-clock-o"></i> @post.AddDate </p>
+
+            </div>
+        </div>
+
+    }
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.PageCount(); i++)
+            {
+                <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>

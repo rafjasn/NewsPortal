@@ -1,0 +1,23 @@
+﻿@model Newsportal.Models.Post
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="card mb-4 cardPost">
+    <img class="card-img-top" src="@Url.Content(Model.Image)" width="400" />
+    <div class="card-body">
+
+        <h2 class="card-title"> @Model.PostTitle</h2>
+
+            
+        <p><b>Category : </b><span class="badge badge-primary">@Model.Category.Name</span> </p>
+          <hr/>
+        <p class="card-text text-justify">@Model.PostDescription</p>
+
+    </div>
+    <div class="card-footer text-muted">
+        <p><i class="fa fa-clock-o"></i> @Model.AddDate </p>
+
+    </div>
+</div>

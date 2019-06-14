@@ -1,0 +1,69 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+@using (Html.BeginForm("FileUpload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary();
+    <div class="alert alert-success alert-dismissible" role="alert">@ViewBag.Message</div>
+
+    <div class="form-horizontal">
+        <h4>Upload Data Documents</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.project_id)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Some Other File</label>
+            <div class="col-md-10">
+                <input type="file" name="someOtherFile" class="form-control" />
+                <span class="field-validation-error" id="spanfilesomeOtherFile"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Results Comparison</label>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <input type="file" name="FileUploadResultsComparison" class="form-control" placeholder=".col-md-4" />
+                        <span class="field-validation-error" id="spanfileResultsComparison"></span>
+                    </div>
+                    <div class="col-md-4">
+                        @if (ViewData["Project"] != null)
+                        {
+                            @Html.DropDownList("resultsComp_project", (SelectList)ViewData["Project"], "Select a Project", new { @class = "form-control", @placeholder = ".col-md-4" })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Memory Usage</label>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <input type="file" name="FileUploadMemoryUsage" class="form-control" />
+                        <span class="field-validation-error" id="spanfileMemoryUsage"></span>
+                    </div>
+                    <div class="col-md-4">
+                        @if (ViewData["Project"] != null)
+                        {
+                            @Html.DropDownList("memUsage_project", (SelectList)ViewData["Project"], "Select a Project", new { @class = "form-control", @placeholder = ".col-md-4" })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="Submit" id="btnSubmit" value="Upload Files" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+        }
+        
