@@ -15,11 +15,10 @@
 @* TODO Implement better way to show category name *@
 
     <h2 class="text-center mb-5">
-        Posts in @foreach (var post in Model.PaginatedPosts().Take(1))
+        Category: @foreach (var post in Model.PaginatedPosts().Take(1))
         {@post.Category.Name}
          <br/>
-        Page: @Model.CurrentPage @Model.Categories
-    </h2>
+         </h2>
 
 @if (!Model.PaginatedPosts().Any())
 {

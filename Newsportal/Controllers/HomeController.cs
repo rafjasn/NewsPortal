@@ -99,7 +99,7 @@ namespace Newsportal.Controllers
             postView.PostsPerPage = 3;
             postView.Posts = _context.Posts.Include(p => p.Category).Where(p => p.PostTitle.Contains(search) || search == null);
             postView.CurrentPage = page;
-
+            ViewBag.fdf = search;
             return View(postView);
         }
 

@@ -42,7 +42,7 @@
             @for (int i = 1; i <= Model.PageCount(); i++)
             {
                 <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    <a class="page-link" href="@Url.Action("Search", new { page = i, search = @ViewBag.fdf })">@i</a>
                 </li>
             }
         </ul>

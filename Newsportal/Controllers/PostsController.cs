@@ -1,197 +1,177 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
-using System.Web.Mvc;
-using Newsportal.Models;
+using System.Data;
 using System.Data.Entity;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Newsportal.Models;
 
 namespace Newsportal.Controllers
 {
     public class PostsController : Controller
     {
-        private ApplicationDbContext _context;
-        
-
-        public PostsController()
-        {
-            _context = new ApplicationDbContext();
-        }
-        protected override void Dispose(bool disposing)
-        {
-            _context.Dispose();
-        }
-
-        public ActionResult New()
-        {
-            var categories = _context.Categories.ToList();
-            var images = _context.Images.ToList();
-            var viewModel = new Post
-            {
-               
-                Categories = categories,
-            };
-            return View("PostForm",viewModel);
-        }
-
-
-    
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Save(Post post)
-        {
-            if (!ModelState.IsValid)
-            {
-                var viewModel = new Post
-                {
-                    Categories = _context.Categories.ToList(),
-                 
-                };
-
-                return View("PostForm", viewModel);
-            }
+        private ApplicationDbContext db = new ApplicationDbContext();
 
 
 
-            //Image
-
-            string fileName = Path.GetFileNameWithoutExtension(post.PostTitle);
-            string extension = Path.GetExtension(post.ImageFile.FileName);
-            fileName = fileName + "-" + DateTime.Now.ToString("yymmssfff") + extension;
-            post.Image = "~/Images/" + fileName;
-            fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
-
-            post.ImageFile.SaveAs(fileName);
-
-
-            //-------------------------
-
-
-
-
-
-            if (post.Id == 0)
-            {
-
-
-
-
-                _context.Posts.Add(post);
-                post.AddDate = DateTime.Now;
-                post.LastUpdate = DateTime.Now;
-
-             
-
-
-
-
-
-            }
-            else
-            {
-                var postInDb = _context.Posts.Single(p => p.Id == post.Id);
-                postInDb.LastUpdate = DateTime.Now;
-                //postInDb.AddDate = DateTime.Now;
-                postInDb.PostTitle = post.PostTitle;
-                postInDb.PostDescription = post.PostDescription;
-                postInDb.Image = post.Image;
-                postInDb.CategoryId = post.CategoryId;
-
-
-            }
-
-
-
-            _context.SaveChanges();
-            return RedirectToAction("Index", "Posts");
-        }
-
-
-
-
-        // GET: Posts
         public ActionResult Index()
         {
-            var posts = _context.Posts.Include(p =>p.Category).ToList();
-
-            return View(posts);
-
-        
-        }
-
-
-        //public ActionResult Details(int id)
-        //{
-        //    var post = _context.Posts.Include(c=>c.Category).SingleOrDefault(p => p.Id == id);
-        //    if (post == null)
-        //        return HttpNotFound();
-        //    return View(post);
-        //}
-
-        public ActionResult Edit(int id)
-        {
-            var post = _context.Posts.SingleOrDefault(p => p.Id == id);
-            if (post == null)
-                return HttpNotFound();
-
-            var viewModel = new Post
-            {
-                
-                Categories = _context.Categories.ToList(),
-             
-                
-            };
-            return View("PostForm", viewModel);
-        }
-
-
-        //Temporary code ----------------------------------
-
-
-
-
-
-
-        public ActionResult Add(Post imageModel)
-        {
-
-            string fileName = Path.GetFileNameWithoutExtension(imageModel.ImageFile.FileName);
-            string extension = Path.GetExtension(imageModel.ImageFile.FileName);
-            fileName = fileName + "-" + DateTime.Now.ToString("yymmssfff") + extension;
-            imageModel.Image = "~/Images/" + fileName;
-            fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
-            imageModel.ImageFile.SaveAs(fileName);
-
-            _context.Posts.Add(imageModel);
-            _context.SaveChanges();
-
-            ModelState.Clear();
             return View();
         }
 
 
 
+        // GET: Posts1
+        public ActionResult List()
+        {
+            var posts = db.Posts.Include(p => p.Category);
+            return View(posts.ToList());
+        }
+
+        // GET: Posts1/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            return View(post);
+        }
+
+        // GET: Posts1/Create
+        public ActionResult Create()
+        {
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            return View();
+        }
+
+        // POST: Posts1/Create
+ 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create( Post post)
+        {
+            if (ModelState.IsValid)
+            {
+
+                //Image -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                string fileName = Path.GetFileNameWithoutExtension(post.PostTitle);
+                string extension = Path.GetExtension(post.ImageFile.FileName);
+                fileName = fileName + "-" + DateTime.Now.ToString("yymmssfff") + extension;
+                post.Image = "~/Images/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
+
+                post.ImageFile.SaveAs(fileName);
 
 
-
-        //----------------------------------------------------
-
-
-
-
-
+                //-------------------------
+                db.Posts.Add(post);
+                post.AddDate = DateTime.Now;
+                post.LastUpdate = DateTime.Now;
+         
 
 
+                db.SaveChanges();
+                return RedirectToAction("List");
+            }
+
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
+        }
+
+        // GET: Posts1/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
+        }
+
+        // POST: Posts1/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Post post)
+        {
+            if (ModelState.IsValid)
+            {
+
+                //Image
+
+                string fileName = Path.GetFileNameWithoutExtension(post.PostTitle);
+                string extension = Path.GetExtension(post.ImageFile.FileName);
+                fileName = fileName + "-" + DateTime.Now.ToString("yymmssfff") + extension;
+                post.Image = "~/Images/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
+
+                post.ImageFile.SaveAs(fileName);
 
 
+                //-------------------------
+
+                db.Entry(post).State = EntityState.Modified;
+                var date = post.AddDate;
+                post.LastUpdate = DateTime.Now;
 
 
+                db.SaveChanges();
+                return RedirectToAction("List");
+            }
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", post.CategoryId);
+            return View(post);
+        }
 
+        // GET: Posts1/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Post post = db.Posts.Find(id);
+            if (post == null)
+            {
+                return HttpNotFound();
+            }
+            return View(post);
+        }
 
+        // POST: Posts1/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Post post = db.Posts.Find(id);
+            db.Posts.Remove(post);
+            db.SaveChanges();
+            return RedirectToAction("List");
+        }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

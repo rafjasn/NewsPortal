@@ -185,8 +185,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\PostsController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Dtos\PostDto.cs" />
@@ -237,11 +238,19 @@
     <Compile Include="Migrations\201906131557488_ImageUpdate.Designer.cs">
       <DependentUpon>201906131557488_ImageUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906251349304_Update.cs" />
+    <Compile Include="Migrations\201906251349304_Update.Designer.cs">
+      <DependentUpon>201906251349304_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906251401134_AddComments.cs" />
+    <Compile Include="Migrations\201906251401134_AddComments.Designer.cs">
+      <DependentUpon>201906251401134_AddComments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -578,14 +587,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Home\Details.cshtml" />
-    <Content Include="Views\Posts\PostForm.cshtml" />
     <Content Include="Views\File\FileUpload.cshtml" />
-    <Content Include="Views\Images\Add.cshtml" />
-    <Content Include="Views\Images\View.cshtml" />
-    <Content Include="Views\Posts\Add.cshtml" />
-    <Content Include="Views\Posts\Add2.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -602,10 +605,22 @@
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Home\Sidebar.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\List.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Comments\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -645,6 +660,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906131557488_ImageUpdate.resx">
       <DependentUpon>201906131557488_ImageUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906251349304_Update.resx">
+      <DependentUpon>201906251349304_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906251401134_AddComments.resx">
+      <DependentUpon>201906251401134_AddComments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

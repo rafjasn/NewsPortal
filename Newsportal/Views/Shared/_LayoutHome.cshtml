@@ -14,26 +14,35 @@
     @* ----------------------------- *@
 </head>
 <body style="margin-top: 40px;">
-    @Html.Partial("_NavBar")
-    <div class="container body-content">
-        <div class="row">
-            <div class="col-md-8">
-                @RenderBody()
+@* Facebook comments, like, share javascript code *@
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v3.3"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v3.3"></script>
 
-            </div>
-            <div class="col-md-4">
-                @*@Html.Partial("_Sidebar")*@
-                @{ Html.RenderAction("Sidebar", "Home"); }
-            </div>
+
+@* ---------------------------------- *@
+
+
+@Html.Partial("_NavBar")
+<div class="container body-content">
+    <div class="row">
+        <div class="col-md-8">
+            @RenderBody()
+
         </div>
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year -NewsPortal</p>
-        </footer>
+        <div class="col-md-4">
+            @*@Html.Partial("_Sidebar")*@
+            @{ Html.RenderAction("Sidebar", "Home"); }
+        </div>
     </div>
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year -NewsPortal</p>
+    </footer>
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

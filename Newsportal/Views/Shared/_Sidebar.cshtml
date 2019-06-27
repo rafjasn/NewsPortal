@@ -9,7 +9,7 @@
             @foreach (var post in Model.Reverse().Take(10))
             {
                 <li>
-                    @Html.ActionLink(post.PostTitle, "Details", "Posts", new { id = post.Id }, new { @class = "list-group-item list-group-item-action" })
+                    @Html.ActionLink(post.PostTitle, "Details", "Home", new { id = post.Id }, new { @class = "list-group-item list-group-item-action" })
 
                 </li>
             }

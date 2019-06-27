@@ -10,9 +10,10 @@
 
         <h2 class="card-title"> @Model.PostTitle</h2>
 
-            
+
         <p><b>Category : </b><span class="badge badge-primary">@Model.Category.Name</span> </p>
-          <hr/>
+        <div class="fb-like" data-href="@Request.Url.ToString()" data-width="" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+        <hr />
         <p class="card-text text-justify">@Model.PostDescription</p>
 
     </div>
@@ -21,3 +22,5 @@
 
     </div>
 </div>
+
+<div class="fb-comments" data-href="@Request.Url.ToString()" data-width="100%" data-numposts="5"></div>

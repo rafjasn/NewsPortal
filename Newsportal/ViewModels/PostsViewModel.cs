@@ -20,7 +20,7 @@ namespace Newsportal.ViewModels
         public IEnumerable<Post> PaginatedPosts()
         {
             int start = (CurrentPage - 1) * PostsPerPage;
-            return Posts.OrderBy(p => p.Id).Skip(start).Take(PostsPerPage);
+            return Posts.OrderBy(p => p.Id).Reverse().Skip(start).Take(PostsPerPage);
         }
         public IEnumerable<Category> Categories { get; set; }
 

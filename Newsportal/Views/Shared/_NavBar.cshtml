@@ -9,10 +9,12 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="~/">Home<span class="sr-only">(current)</span></a>
                 </li>
+             
                 <li>
-                    <a class="nav-link" href="~/Posts">Admin</a>
+                    <a class="nav-link" href="~/Home/Categories">Categories</a>
 
-                </li>  <li>
+                </li> 
+                <li>
                     <a class="nav-link" href="~/Home/About">About</a>
 
                 </li>
@@ -25,8 +27,8 @@
                 @Html.Partial("_LoginPartial")
             
             <form action="@Url.Action("Search", "Home")" method="GET" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" id="search" name="search" type="text" />
-                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" />
+                <input class="form-control mr-sm-2" id="search" name="search" type="text" required />
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
             </form>
             </div>
 

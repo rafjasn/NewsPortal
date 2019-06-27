@@ -14,7 +14,7 @@
 {
 
     <div class="card mb-4 cardPost">
-        <a href="~/Posts/Details/@post.Id"><img class="card-img-top" src="@Url.Content(post.Image)" width="400" /></a>
+        <a href="~/Home/Details/@post.Id"><img class="card-img-top" src="@Url.Content(post.Image)" width="400" /></a>
         <div class="card-body">
 
             <h2> @Html.ActionLink(post.PostTitle, "Details", "Home", new { id = post.Id }, new { @class = "card-title", style="color: black;" })</h2>
@@ -42,3 +42,4 @@
         }
     </ul>
 </nav>
+

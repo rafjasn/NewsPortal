@@ -19,11 +19,16 @@ namespace Newsportal.Models
         public string PostTitle { get; set; }
         [Required]
         [Display(Name = "Post Description")]
+        [DataType(DataType.MultilineText)]
+
         public string PostDescription { get; set; }
 
-       
+        [Display(Name = "Add date")]
+
         public DateTime AddDate { get; set; }
-      
+
+        [Display(Name = "Last update")]
+
         public DateTime LastUpdate { get; set; }
         
        

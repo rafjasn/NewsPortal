@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Newsportal.Models.Post>
+
+@{
+    ViewBag.Title = "Posts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage posts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create",null ,new {@class="btn btn-success"})
+</p>
+<table id="posts" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.PostTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.AddDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastUpdate)
+        </th>
+
+        <th>
+            Action
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="min-width: 30%">
+                    @Html.DisplayFor(modelItem => item.PostTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdate)
+                </td>
+
+                <td class="row">
+                    <div class="col-sm"> @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-success" })</div>
+                    <div class="col-sm">@Html.ActionLink("Details", "Details", "Home", new { id = item.Id }, new { @class = "btn btn-block btn-primary" })</div>
+                    <div class="col-sm">@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-danger" })</div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+
+
+
+@* @using System.Web.Configuration
+@using Newsportal.Models
+@model IEnumerable<Newsportal.Models.Post>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<a href="~/Posts/New" class="btn btn-primary">Add post</a>
+<table id="posts" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Category</th>
+            <th scope="col">Added</th>
+            <th scope="col">Last Update</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+
+
+            <tr>
+                <th scope="row">@Html.ActionLink(post.PostTitle, "Details", "Home", new { id = post.Id }, null)</th>
+                <td>@post.Category.Name</td>
+                <td>@post.AddDate</td>
+                <td>@post.LastUpdate</td>
+                <td class="text-center">
+                    @Html.ActionLink("edit", "Edit", "Posts", new { id = post.Id }, new { @class = "btn btn-secondary" })
+                    <button data-post-id="@post.Id" class="btn btn-danger js-delete">Delete</button>
+                </td>
+            </tr>
+
+            @*</table>
+                <div2>
+                <h4>@Html.ActionLink(post.PostTitle, "Details", "Posts", new {id = post.Id}, null)</h4>
+
+                <h4>@Html.ActionLink("edit", "Edit", "Posts", new {id = post.Id}, null)</h4>
+                <img src="@Url.Content(post.Image)" width="400"/>
+
+
+                <h5>@post.Category.Name.</h5>
+                <button data-post-id="@post.Id" class="btn btn-danger js-delete">Delete</button>
+                <hr/>
+                </div2>*@
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#posts").DataTable();
+
+
+        });
+    </script>
+}
+
+ 
